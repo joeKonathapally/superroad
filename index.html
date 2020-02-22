@@ -133,6 +133,7 @@
           objectJson.forEach(x =>{
             console.log(x.lng+","+x.lat+","+x.data);
             pointOperation(x.lng,x.lat,x.data);
+            pointOperation2(x.lng,x.lat,x.data);
           });
 
         });
@@ -158,6 +159,32 @@
           return outputString+"</div>";
           }
           L.marker({lon: x, lat: y}).bindPopup(rendersList(array)).addTo(map);
+          // L.marker({lon: x, lat: y}).bindPopup(rendersList(array)).addTo(mymap);
+        }
+
+        function pointOperation2(x,y,array){
+          function rendersList(array) {
+          var outputString="<div class=\"pop-up\">";
+          array.forEach(element => {
+            let post = element;
+            outputString += "<div class=\"card\" style=\"width: 18rem;\">"
+              outputString += '<img src="http://superroad.herokuapp.com/'+post.image+'" class="card-img-top">';
+            outputString+= "<div class=\"card-body\">"
+            outputString+= "<h5 class=\"card-title\">"+post.time+"</h5>"
+            outputString+= "<p class=\"card-text\">"+post.description+"</p>"
+            outputString+= "<p class=\"card-text\">";
+            post.tags.forEach(ele =>{
+              outputString += ele+",";
+            });
+            outputString = outputString.substring(0,outputString.length-1);
+            outputString += "</p>";
+            outputString+="</div> </div>"
+            outputString += "</br>"
+          });
+          return outputString+"</div>";
+          }
+          // L.marker({lon: x, lat: y}).bindPopup(rendersList(array)).addTo(map);
+          L.marker({lon: x, lat: y}).bindPopup(rendersList(array)).addTo(mymap);
         }
 
         
