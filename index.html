@@ -142,7 +142,7 @@
           array.forEach(element => {
             let post = element;
             outputString += "<div class=\"card\" style=\"width: 18rem;\">"
-              outputString += "<img src=\"https://www.stylist.co.uk/images/app/uploads/2018/02/16105515/istock-499533347-1500x1000.jpg?w=1200&h=1&fit=max&auto=format%2Ccompress\" class=\"card-img-top\">"
+              outputString += '<img src="http://superroad.herokuapp.com/'+post.image+'" class="card-img-top">';
             outputString+= "<div class=\"card-body\">"
             outputString+= "<h5 class=\"card-title\">"+post.time+"</h5>"
             outputString+= "<p class=\"card-text\">"+post.description+"</p>"

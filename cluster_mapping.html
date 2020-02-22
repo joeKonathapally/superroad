@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <script>
+            var data = [];
+for (i=0;i<1000;i++){
+    data = data + [[getRandomArbitrary(-180,180),getRandomArbitrary(-180,180)]]
+}
+
+
+function getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+for(i=0;i<data.length;i++){
+    console.log(data[i]);
+}
+        </script>
+    </head>
+    <body>
+        
+    </body>
+</html>
