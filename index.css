@@ -44,9 +44,11 @@
   }
 
   #container{
+    border-color: crimson;
     position: absolute;
     top: 0px;
     z-index: 0;
+    width: 100%;
     /* display:none; */
   }
 
@@ -57,4 +59,15 @@
     text-align: center;
     line-height: 0px;
   }
+
+  #container #issMap{
+    border: darkgreen;
+    position: relative;
+    /* margin-right: 20px; */
+    /* margin-left: 20px; */
+    height: 500px;
+    width: 500px;
+  }
+
+  
   

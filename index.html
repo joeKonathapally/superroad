@@ -15,7 +15,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
-    
+    <!-- <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+    ></script> -->
     <link rel = "stylesheet" type = "text/css" href = "index.css"/>
     
 
@@ -44,9 +50,10 @@
       <div class="close">
         <button onclick='button_add_press("map")'>Close</button>
       </div>
+      <p></p>
+      <div id="issMap"></div>
     </div>
-
-
+    
 
 
 
@@ -59,29 +66,9 @@
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
-      }).addTo(map);
-      var holding_data = [{"time": 12123123123123124,
-        "image": "imageLocation",
-        "description": "asdkjashdk",
-        "tags": ["tag1", "tag2"]},{"time": 1212313123124,
-        "image": "imagadaseLocation",
-        "description": "asdkjasdasashdk",
-        "tags": ["tagasd1", "tagasdas2"]},{"time": 1212313123124,
-        "image": "imagadaseLocation",
-        "description": "asdkjasdasashdk",
-        "tags": ["tagasd1", "tagasdas2"]},{"time": 1212313123124,
-        "image": "imagadaseLocation",
-        "description": "asdkjasdasashdk",
-        "tags": ["tagasd1", "tagasdas2"]}];
-      // show the scale bar on the lower left corner
+        , noWrap: true}).addTo(map);
       L.control.scale().addTo(map);
-      // var popup = L.popup().setLatLng(latlng).setContent().openOn(map);
-      // show a marker on the map
-
-      
-
       const data = "localhost:3000/all";
-
       // var request = new Request(data);
       // fetch(request).then(function(response) {
       //   return response.text();
@@ -93,12 +80,6 @@
       //   });
 
       // });
-
-      
-
-
-      // console.log("Hello");
-
       function pointOperation(x,y,array){
         function rendersList(array) {
         var outputString="<div class=\"pop-up\">";
@@ -133,15 +114,6 @@
           x.style.display = "none";
           console.log("map is block")
         }
-        // var y = document.getElementById("container");
-        // console.log(y.style.display)
-        // if (y.style.display === "none") {
-        //   y.style.display = "block";
-        //   console.log("container is none")
-        // } else {
-        //   y.style.display = "none";
-        //   console.log("container is block")
-        // }
       }
       function return_to_map(){
         var y = document.getElementById("container");
@@ -154,6 +126,46 @@
           console.log("container is block")
         }
       }
+
+
+      const mymap = L.map('issMap').setView([0, 0], 6);
+      const attribution =
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+
+      const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+      const tiles = L.tileLayer(tileUrl, { attribution, noWrap: true});
+      tiles.addTo(mymap);
+	    var isPointed = false;
+    	var currentMarker = L.marker();
+      function onMapClick(e) {
+      if (!isPointed){
+        // alert("You clicked the map at " + e.latlng);
+        currentMarker = L.marker(e.latlng).addTo(mymap);
+        
+        currentMarker.on('click',onClickMarker);
+        // document.getElementById('lat').setAttribute('value', e.latlng.lat);
+        // document.getElementById('lng').setAttribute('value', e.latlng.lng);
+        // document.getElementById("latText").innerHTML = e.latlng.lat;
+        // document.getElementById("lnText").innerHTML = e.latlng.lng;
+        isPointed = true;
+      }
+      }
+      mymap.on('click', onMapClick);
+      
+      function onClickMarker(e){
+        console.log(e);
+        // currentMarker.remove();
+        mymap.removeLayer(currentMarker);
+        isPointed = false;
+        // document.getElementById('lat').setAttribute('value', '1')
+        // document.getElementById('ln').setAttribute('value', '1')
+      }
+      // currentMarker.on('click',onClickMarker);
+		
+
+
+
+
     </script>
     
   </body>
