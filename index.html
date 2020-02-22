@@ -92,10 +92,13 @@
         yweb = position.coords.latitude;
         xweb = position.coords.longitude;
         console.log(xweb+' '+yweb);
-        map.setView({lon: xweb,lat: yweb},2);
-        mymap.setView({lon: xweb,lat: yweb},6);
         document.getElementById('lat').setAttribute('value', xweb);
-			  document.getElementById('lng').setAttribute('value', yweb);
+        document.getElementById('lng').setAttribute('value', yweb);
+        console.log("set-defaults"+xweb+","+yweb);
+        map.setView({lon: xweb,lat: yweb},6);
+        mymap.setView({lon: xweb,lat: yweb},6);
+        
+        console.log("set-defaults"+xweb+","+yweb);
         // onClickMarker(null);
         // currentMarker = L.marker({lon:xweb,lat:yweb}).addTo(mymap);
         // map = L.map('map').setView({lon: 3, lat: 3}, 6);
