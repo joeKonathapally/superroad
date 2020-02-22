@@ -60,110 +60,150 @@
 
 
     <script>
-      // initialize Leaflet
-      var map = L.map('map').setView({lon: 0, lat: 0}, 2);
-      // add the OpenStreetMap tiles
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
-        , noWrap: true}).addTo(map);
-      L.control.scale().addTo(map);
-      const data = "localhost:3000/all";
-      // var request = new Request(data);
-      // fetch(request).then(function(response) {
-      //   return response.text();
-      // }).then(function(text) {
-      //   // console.log(text.substring(0, 30));
-      //   var objectJson = JSON.parse(text);
-      //   objectJson.forEach(x =>{
-      //     pointOperation(x.lng,x.lat,x.data);
-      //   });
+      var xweb=0;
+      var yweb=0;
 
-      // });
-      function pointOperation(x,y,array){
-        function rendersList(array) {
-        var outputString="<div class=\"pop-up\">";
-        array.forEach(element => {
-          let post = element;
-          outputString += "<div class=\"card\" style=\"width: 18rem;\">"
-            outputString += "<img src=\"https://www.stylist.co.uk/images/app/uploads/2018/02/16105515/istock-499533347-1500x1000.jpg?w=1200&h=1&fit=max&auto=format%2Ccompress\" class=\"card-img-top\">"
-          outputString+= "<div class=\"card-body\">"
-          outputString+= "<h5 class=\"card-title\">"+post.time+"</h5>"
-          outputString+= "<p class=\"card-text\">"+post.description+"</p>"
-          outputString+= "<p class=\"card-text\">";
-          post.tags.forEach(ele =>{
-            outputString += ele+",";
-          });
-          outputString = outputString.substring(0,outputString.length-1);
-          outputString += "</p>";
-          outputString+="</div> </div>"
-          outputString += "</br>"
-        });
-        return outputString+"</div>";
-        }
-        L.marker({lon: x, lat: y}).bindPopup(rendersList(holding_data)).addTo(map);
-      }
-
-      function button_add_press(value){
-        var x = document.getElementById(value);
-        
-        if (x.style.display === "none") {
-          x.style.display = "block";
-          console.log("map is none")
+      function getLocation() {
+        if(navigator.geolocation){
+          navigator.geolocation.watchPosition(showPosition);
+          // setTimeout(() => {
+          //   secondFunction();
+          // },5000);
+          // callback();
         } else {
-          x.style.display = "none";
-          console.log("map is block")
+          x.innerHTML = "Geolocation is not supported by this browser.";
+          // alert("Geolocation is not supported by this browser.");
         }
-      }
-      function return_to_map(){
-        var y = document.getElementById("container");
-        console.log(y.style.display)
-        if (y.style.display === "none") {
-          y.style.display = "block";
-          console.log("container is none")
-        } else {
-          y.style.display = "none";
-          console.log("container is block")
-        }
-      }
-
-
-      const mymap = L.map('issMap').setView([0, 0], 6);
-      const attribution =
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-
-      const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-      const tiles = L.tileLayer(tileUrl, { attribution, noWrap: true});
-      tiles.addTo(mymap);
-	    var isPointed = false;
-    	var currentMarker = L.marker();
-      function onMapClick(e) {
-      if (!isPointed){
-        // alert("You clicked the map at " + e.latlng);
-        currentMarker = L.marker(e.latlng).addTo(mymap);
         
-        currentMarker.on('click',onClickMarker);
-        // document.getElementById('lat').setAttribute('value', e.latlng.lat);
-        // document.getElementById('lng').setAttribute('value', e.latlng.lng);
-        // document.getElementById("latText").innerHTML = e.latlng.lat;
-        // document.getElementById("lnText").innerHTML = e.latlng.lng;
-        isPointed = true;
       }
+
+      function showPosition(position) {
+        yweb = position.coords.latitude;
+        xweb = position.coords.longitude;
+        console.log(xweb+' '+yweb);
+        map.setView({lon: xweb,lat: yweb},2);
+        mymap.setView({lon: xweb,lat: yweb},6);
+        // map = L.map('map').setView({lon: 3, lat: 3}, 6);
       }
-      mymap.on('click', onMapClick);
       
-      function onClickMarker(e){
-        console.log(e);
-        // currentMarker.remove();
-        mymap.removeLayer(currentMarker);
-        isPointed = false;
-        // document.getElementById('lat').setAttribute('value', '1')
-        // document.getElementById('ln').setAttribute('value', '1')
+
+      getLocation();
+
+      
+
+      secondFunction();
+      // initialize Leaflet
+      function secondFunction(){
+        console.log(xweb+' '+yweb);
+        var map = L.map('map').setView({lon: xweb, lat: yweb}, 6);
+        map.locate({setView: true, maxZoom: 14}); 
+        // map = L.map('map').setView({lon: 3, lat: 3}, 6);
+        // add the OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+          , noWrap: true}).addTo(map);
+        L.control.scale().addTo(map);
+        const data = "localhost:3000/all";
+        // var request = new Request(data);
+        // fetch(request).then(function(response) {
+        //   return response.text();
+        // }).then(function(text) {
+        //   // console.log(text.substring(0, 30));
+        //   var objectJson = JSON.parse(text);
+        //   objectJson.forEach(x =>{
+        //     pointOperation(x.lng,x.lat,x.data);
+        //   });
+
+        // });
+        function pointOperation(x,y,array){
+          function rendersList(array) {
+          var outputString="<div class=\"pop-up\">";
+          array.forEach(element => {
+            let post = element;
+            outputString += "<div class=\"card\" style=\"width: 18rem;\">"
+              outputString += "<img src=\"https://www.stylist.co.uk/images/app/uploads/2018/02/16105515/istock-499533347-1500x1000.jpg?w=1200&h=1&fit=max&auto=format%2Ccompress\" class=\"card-img-top\">"
+            outputString+= "<div class=\"card-body\">"
+            outputString+= "<h5 class=\"card-title\">"+post.time+"</h5>"
+            outputString+= "<p class=\"card-text\">"+post.description+"</p>"
+            outputString+= "<p class=\"card-text\">";
+            post.tags.forEach(ele =>{
+              outputString += ele+",";
+            });
+            outputString = outputString.substring(0,outputString.length-1);
+            outputString += "</p>";
+            outputString+="</div> </div>"
+            outputString += "</br>"
+          });
+          return outputString+"</div>";
+          }
+          L.marker({lon: x, lat: y}).bindPopup(rendersList(holding_data)).addTo(map);
+        }
+
+        
+
+
+        var mymap = L.map('issMap').setView({lon: xweb,lat: yweb}, 6);
+        const attribution =
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+
+        const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+        const tiles = L.tileLayer(tileUrl, { attribution, noWrap: true});
+        tiles.addTo(mymap);
+        mymap.locate({setView: true, maxZoom: 14}); 
+        var isPointed = false;
+        var currentMarker = L.marker();
+        function onMapClick(e) {
+        if (!isPointed){
+          // alert("You clicked the map at " + e.latlng);
+          currentMarker = L.marker(e.latlng).addTo(mymap);
+          
+          currentMarker.on('click',onClickMarker);
+          // document.getElementById('lat').setAttribute('value', e.latlng.lat);
+          // document.getElementById('lng').setAttribute('value', e.latlng.lng);
+          // document.getElementById("latText").innerHTML = e.latlng.lat;
+          // document.getElementById("lnText").innerHTML = e.latlng.lng;
+          isPointed = true;
+        }
+        }
+        mymap.on('click', onMapClick);
+        
+        function onClickMarker(e){
+          console.log(e);
+          // currentMarker.remove();
+          mymap.removeLayer(currentMarker);
+          isPointed = false;
+          // document.getElementById('lat').setAttribute('value', '1')
+          // document.getElementById('ln').setAttribute('value', '1')
+        }
       }
       // currentMarker.on('click',onClickMarker);
 		
+      // secondFunction();
 
 
+      function button_add_press(value){
+          var x = document.getElementById(value);
+          
+          if (x.style.display === "none") {
+            x.style.display = "block";
+            console.log("map is none")
+          } else {
+            x.style.display = "none";
+            console.log("map is block")
+          }
+        }
+        function return_to_map(){
+          var y = document.getElementById("container");
+          console.log(y.style.display)
+          if (y.style.display === "none") {
+            y.style.display = "block";
+            console.log("container is none")
+          } else {
+            y.style.display = "none";
+            console.log("container is block")
+          }
+        }
 
 
     </script>
