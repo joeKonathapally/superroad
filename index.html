@@ -31,22 +31,33 @@
     <div id="map"><form onclick='button_add_press("map")' class="button-to-add"><input type="button" value="+"></input></form></div>
 
     <div id="container">
-      <form onclick="return_to_map()" method="post" enctype="multipart/form-data">
-      <div class="form-group">
-        <label for="photo">Photo:</label>
-        <input type="file"  id ="photo" name="photo">
-      </div>
-      
-      <input type="hidden"  id="lat" name="Lat" value="1">
-      <input type="hidden"  id="lng" name="Lng" value="1">
-      <input type="hidden"  id="tags" name="tags" value="">
-      <br/>
-      <div class="form-group">
-        <label for="description">Description:</label>
-        <input type="text"  id="description" name="description" value="">
-      </div>
-      <button type="submit" class="btn btn-default">Submit</button>
-      </form>
+      <form action="https://superroad.herokuapp.com/write" method="POST">
+        <div class="form-group">
+            <!-- <label for="ISBN">ISBN</label> -->
+            <!-- <input class="form-control" name="lat"> -->
+            <input type="hidden"  id="lat" name="lat" value="1">
+		        <input type="hidden"  id="lng" name="lng" value="1">
+        </div>
+
+        <div class="form-group">
+            <label for="Tags">Tags</label>
+            <input class="form-control" name="tag">
+        </div>
+
+        <div class="form-group">
+            <label for="Title">Description</label>
+            <input class="form-control" name="description">
+        </div>
+
+
+        <div class="form-group">
+            <label for="Image">Image</label>
+            <input type="file"  id ="image" name="image">
+        </div>
+
+        <!--Other fields-->
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
       <div class="close">
         <button onclick='button_add_press("map")'>Close</button>
       </div>
@@ -83,6 +94,10 @@
         console.log(xweb+' '+yweb);
         map.setView({lon: xweb,lat: yweb},2);
         mymap.setView({lon: xweb,lat: yweb},6);
+        document.getElementById('lat').setAttribute('value', xweb);
+			  document.getElementById('lng').setAttribute('value', yweb);
+        // onClickMarker(null);
+        // currentMarker = L.marker({lon:xweb,lat:yweb}).addTo(mymap);
         // map = L.map('map').setView({lon: 3, lat: 3}, 6);
       }
       
@@ -153,6 +168,7 @@
         mymap.locate({setView: true, maxZoom: 14}); 
         var isPointed = false;
         var currentMarker = L.marker();
+        // currentMarker.on('click',onClickMarker);
         function onMapClick(e) {
         if (!isPointed){
           // alert("You clicked the map at " + e.latlng);
@@ -161,6 +177,8 @@
           currentMarker.on('click',onClickMarker);
           // document.getElementById('lat').setAttribute('value', e.latlng.lat);
           // document.getElementById('lng').setAttribute('value', e.latlng.lng);
+          document.getElementById('lat').setAttribute('value', e.latlng.lat);
+			    document.getElementById('lng').setAttribute('value', e.latlng.lng);
           // document.getElementById("latText").innerHTML = e.latlng.lat;
           // document.getElementById("lnText").innerHTML = e.latlng.lng;
           isPointed = true;
