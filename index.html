@@ -22,7 +22,7 @@
 
   </head>
   <body>
-    <div id="map"></div>
+    <div id="map"><form action="" class="button-to-add"><input type="button"></input></form></div>
     <script>
       // initialize Leaflet
       var map = L.map('map').setView({lon: 0, lat: 0}, 2);
@@ -96,4 +96,5 @@
         L.marker({lon: x, lat: y}).bindPopup(rendersList(holding_data)).addTo(map);
       }
     </script>
+    
   </body>

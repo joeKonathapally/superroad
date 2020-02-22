@@ -7,6 +7,8 @@
     /* configure the size of the map */
     width: 100%;
     height: 100%;
+    z-index: 1;
+    
   }
 
   .pop-up::-webkit-scrollbar {
@@ -19,3 +21,14 @@
     /* overflow-y: hidden; */
     /* overflow-x: hidden; */
   }
+
+
+  #map .button-to-add input[type=button]{
+    position: relative;
+    left:85%;
+    top:85%;
+    height:75px;
+    z-index: 2;
+    width:75px;
+  }
+  
