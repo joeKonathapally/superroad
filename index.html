@@ -31,7 +31,7 @@
     <div id="map"><form onclick='button_add_press("map")' class="button-to-add"><input type="button" value="+"></input></form></div>
 
     <div id="container">
-      <form action="https://superroad.herokuapp.com/write" method="POST">
+      <form action="https://superroad.herokuapp.com/write" method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <!-- <label for="ISBN">ISBN</label> -->
             <!-- <input class="form-control" name="lat"> -->
@@ -52,7 +52,7 @@
 
         <div class="form-group">
             <label for="Image">Image</label>
-            <input type="file"  id ="image" name="image">
+            <input type="file"  id ="image" name="avatar">
         </div>
 
         <!--Other fields-->
