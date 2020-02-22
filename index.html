@@ -23,6 +23,32 @@
   </head>
   <body>
     <div id="map"><form onclick="button_add_press()" class="button-to-add"><input type="button" value="+"></input></form></div>
+
+    <div id="container">
+      <form onclick="return_to_map()" method="post" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="photo">Photo:</label>
+        <input type="file"  id ="photo" name="photo">
+      </div>
+      
+      <input type="hidden"  id="lat" name="Lat" value="1">
+      <input type="hidden"  id="lng" name="Lng" value="1">
+      <input type="hidden"  id="tags" name="tags" value="">
+      <br/>
+      <div class="form-group">
+        <label for="description">Description:</label>
+        <input type="text"  id="description" name="description" value="">
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+    </div>
+
+
+
+
+
+
+
     <script>
       // initialize Leaflet
       var map = L.map('map').setView({lon: 0, lat: 0}, 2);
@@ -96,10 +122,33 @@
 
       function button_add_press(){
         var x = document.getElementById("map");
+        
         if (x.style.display === "none") {
           x.style.display = "block";
+          console.log("map is none")
         } else {
           x.style.display = "none";
+          console.log("map is block")
+        }
+        // var y = document.getElementById("container");
+        // console.log(y.style.display)
+        // if (y.style.display === "none") {
+        //   y.style.display = "block";
+        //   console.log("container is none")
+        // } else {
+        //   y.style.display = "none";
+        //   console.log("container is block")
+        // }
+      }
+      function return_to_map(){
+        var y = document.getElementById("container");
+        console.log(y.style.display)
+        if (y.style.display === "none") {
+          y.style.display = "block";
+          console.log("container is none")
+        } else {
+          y.style.display = "none";
+          console.log("container is block")
         }
       }
     </script>
