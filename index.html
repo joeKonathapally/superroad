@@ -22,7 +22,7 @@
 
   </head>
   <body>
-    <div id="map"><form onclick="button_add_press()" class="button-to-add"><input type="button" value="+"></input></form></div>
+    <div id="map"><form onclick='button_add_press("map")' class="button-to-add"><input type="button" value="+"></input></form></div>
 
     <div id="container">
       <form onclick="return_to_map()" method="post" enctype="multipart/form-data">
@@ -41,6 +41,9 @@
       </div>
       <button type="submit" class="btn btn-default">Submit</button>
       </form>
+      <div class="close">
+        <button onclick='button_add_press("map")'>Close</button>
+      </div>
     </div>
 
 
@@ -120,8 +123,8 @@
         L.marker({lon: x, lat: y}).bindPopup(rendersList(holding_data)).addTo(map);
       }
 
-      function button_add_press(){
-        var x = document.getElementById("map");
+      function button_add_press(value){
+        var x = document.getElementById(value);
         
         if (x.style.display === "none") {
           x.style.display = "block";
