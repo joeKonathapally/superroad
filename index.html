@@ -122,18 +122,20 @@
           attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
           , noWrap: true}).addTo(map);
         L.control.scale().addTo(map);
-        const data = "localhost:3000/all";
-        // var request = new Request(data);
-        // fetch(request).then(function(response) {
-        //   return response.text();
-        // }).then(function(text) {
-        //   // console.log(text.substring(0, 30));
-        //   var objectJson = JSON.parse(text);
-        //   objectJson.forEach(x =>{
-        //     pointOperation(x.lng,x.lat,x.data);
-        //   });
+        // const data = "localhost:3000/all";
+        const data = "https://superroad.herokuapp.com/all";
+        var request = new Request(data);
+        fetch(request).then(function(response) {
+          return response.text();
+        }).then(function(text) {
+          // console.log(text.substring(0, 30));
+          var objectJson = JSON.parse(text);
+          objectJson.forEach(x =>{
+            console.log(x.lng+","+x.lat+","+x.data);
+            pointOperation(x.lng,x.lat,x.data);
+          });
 
-        // });
+        });
         function pointOperation(x,y,array){
           function rendersList(array) {
           var outputString="<div class=\"pop-up\">";
@@ -155,7 +157,7 @@
           });
           return outputString+"</div>";
           }
-          L.marker({lon: x, lat: y}).bindPopup(rendersList(holding_data)).addTo(map);
+          L.marker({lon: x, lat: y}).bindPopup(rendersList(array)).addTo(map);
         }
 
         
