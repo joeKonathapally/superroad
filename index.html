@@ -73,9 +73,9 @@
     <script>
 
       var yahIcon = L.icon({
-          iconUrl: 'yah.jpg',
+          iconUrl: 'yah.png',
 
-          iconSize:     [38, 95], // size of the icon
+          iconSize:     [50, 50], // size of the icon
           iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
           popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
       });
@@ -115,75 +115,19 @@
         geoloc.clearWatch(watchID);
 
         trial()
-        // onClickMarker(null);
-        // currentMarker = L.marker({lon:xweb,lat:yweb}).addTo(mymap);
-        // map = L.map('map').setView({lon: 3, lat: 3}, 6);
       }
       
       function trial(){
         console.log("Running this"+xweb+' '+yweb);
         document.getElementById('lat').setAttribute('value', xweb);
-        document.getElementById('lng').setAttribute('value', yweb);
-        // console.log("set-defaults"+xweb+","+yweb);
-        
+        document.getElementById('lng').setAttribute('value', yweb);        
         map.setView({lon: xweb,lat: yweb},14);
         mymap.setView({lon: xweb,lat: yweb},14);
-        L.marker({lon: xweb,lat: yweb}).addTo(map);
+        L.marker({lon: xweb,lat: yweb},{icon:yahIcon}).addTo(map);
+        L.marker({lon: xweb,lat: yweb}).addTo(mymap);
         console.log("set-defaults"+xweb+","+yweb);
       }
       getLocation();
-
-      
-        //  var watchID;
-        //  var geoLoc;
-        //  var latitude;
-        //  var longitude;
-         
-        //  function showLocation(position) {
-        //     latitude = position.coords.latitude;
-        //     longitude = position.coords.longitude;
-        //     // alert("Latitude : " + latitude + " Longitude: " + longitude);
-        //  }
-         
-        //  function errorHandler(err) {
-        //     if(err.code == 1) {
-        //        alert("Error: Access is denied!");
-        //     } else if( err.code == 2) {
-        //        alert("Error: Position is unavailable!");
-        //     }
-        //  }
-         
-        //  function getLocationUpdate(){
-            
-        //     if(navigator.geolocation){
-               
-        //        // timeout at 60000 milliseconds (60 seconds)
-        //        var options = {timeout:60000};
-        //        geoLoc = navigator.geolocation;
-        //        watchID = geoLoc.watchPosition(showLocation, errorHandler, options);
-        //     } else {
-        //        alert("Sorry, browser does not support geolocation!");
-        //     }
-        //  }
-         
-        //  function stopWatch() {
-        //     geoLoc.clearWatch(watchID);
-        //  }
-
-        //  getLocationUpdate();
-        //  showLocation();
-        //  console.log(longitude+" "+latitude);
-        //  stopWatch();
-
-
-
-
-
-
-
-
-
-
 
       secondFunction();
       // initialize Leaflet
