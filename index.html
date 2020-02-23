@@ -76,7 +76,7 @@
           iconUrl: 'yah.png',
 
           iconSize:     [50, 50], // size of the icon
-          iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+          iconAnchor:   [25, 50], // point of the icon which will correspond to marker's location
           popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
       });
 
@@ -84,8 +84,8 @@
       var selectedIcon = L.icon({
           iconUrl: 'final.png',
 
-          iconSize:     [38, 95], // size of the icon
-          iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+          iconSize:     [50, 50], // size of the icon
+          iconAnchor:   [25, 50], // point of the icon which will correspond to marker's location
           popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
       });
       var xweb=0;
@@ -148,7 +148,6 @@
         fetch(request).then(function(response) {
           return response.text();
         }).then(function(text) {
-          // console.log(text.substring(0, 30));
           var objectJson = JSON.parse(text);
           objectJson.forEach(x =>{
             // console.log(x.lng+","+x.lat+","+x.data);
@@ -157,10 +156,7 @@
           });
 
         });
-        // /home/morpheus/Holding/index.html
-        // function setUserLocation(){
-        //   L.marker({lon: 10,lat: 10}).addTo(map);
-        // }
+
         function pointOperation(x,y,array){
           function rendersList(array) {
           var outputString="<div class=\"pop-up\">";
@@ -247,6 +243,8 @@
           // currentMarker.remove();
           mymap.removeLayer(currentMarker);
           isPointed = false;
+          document.getElementById('lat').setAttribute('value', xweb);
+          document.getElementById('lng').setAttribute('value', yweb);  
           // document.getElementById('lat').setAttribute('value', '1')
           // document.getElementById('ln').setAttribute('value', '1')
         }
