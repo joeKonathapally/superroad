@@ -132,6 +132,10 @@
       getLocation();
 
       secondFunction();
+
+      // var markerHolder=[];
+      // var shelterMarker1= new L.FeatureGroup();
+      // var shelterMarker2 = new L.FeatureGroup();
       // initialize Leaflet
       function secondFunction(){
         // console.log(xweb+' '+yweb);
@@ -153,10 +157,35 @@
           var objectJson = JSON.parse(text);
           objectJson.forEach(x =>{
             // console.log(x.lng+","+x.lat+","+x.data);
+            // markerHolder.push(pointOperation(x.lng,x.lat,x.data));
             pointOperation(x.lng,x.lat,x.data);
             pointOperation2(x.lng,x.lat,x.data);
             dataPoints.push([x.lng,x.lat,0]);
           });
+//           console.log(markerHolder.length);
+//           populateZoomMap();
+//           for(i=0;i<shelterMarker.length;i++){
+//             map.on('zoomend', function() {
+//     if (map.getZoom() <i+1){
+//             map.removeLayer(shelterMarker[i]);
+//     }
+//     else {
+//             map.addLayer(shelterMarker[i]);
+//         }
+// });
+//           }
+//           for(i=0;i<markerHolder.length;i++){
+//             markerHolder[i].addTo(map);
+//           }
+//           map.addLayer(shelterMarker2);
+//           map.on('zoomend', function() {
+//     if (map.getZoom() >12){
+//             map.removeLayer(shelterMarkers1);
+//     }
+//     else {
+//             map.addLayer(shelterMarkers1);
+//         }
+// });
           valueNodes();
           for(i=0;i<dataPoints.length;i++){
           console.log(dataPoints[i]);
@@ -165,6 +194,17 @@
         
         });
 
+        
+        function splitIntoTwo(){
+          // var temp = markerHolder.slice(0.9*markerHolder.length);
+          markerHolder.slice(0.9*markerHolder.length).forEach(element => {
+            shelterMarker1.push(element);
+          });
+          markerHolder.slice(-0.1*markerHolder.length).forEach(element => {
+            shelterMarker2.push(element);
+          });
+        }
+        var counter=1;
         function pointOperation(x,y,array){
           function rendersList(array) {
           var outputString="<div class=\"pop-up\">";
@@ -186,10 +226,45 @@
           });
           return outputString+"</div>";
           }
-          L.marker({lon: x, lat: y}).bindPopup(rendersList(array)).addTo(map);
+             
+
+          // return L.marker({lon: x,lat: y});
+
+          if(counter%10==0){
+            L.marker({lon: x, lat: y}).bindPopup(rendersList(array)).addTo(map);
+          }
+          counter=counter+1;
           // L.marker({lon: x, lat: y}).bindPopup(rendersList(array)).addTo(mymap);
         }
 
+        function split(arr, n) {
+  var res = [];
+  while (arr.length) {
+    res.push(arr.splice(0, n));
+  }
+  return res;
+}
+        
+
+        function populateZoomMap(){
+          function split(arr, n) {
+  var res = [];
+  while (arr.length) {
+    res.push(arr.splice(0, n));
+  }
+  return res;
+}
+console.log("markerHolder",markerHolder.length);
+markerHolder = split(markerHolder,19);
+console.log("markerHolder",markerHolder.length);
+for(i=0;i<19;i++){
+  shelterMarker.push(new L.FeatureGroup());
+  for(j=0;j<markerHolder.length;j++){
+    shelterMarker.push(markerHolder[i][j])
+  }
+}
+        }
+        var counter1=0;
         function pointOperation2(x,y,array){
           function rendersList(array) {
           var outputString="<div class=\"pop-up\">";
@@ -212,7 +287,10 @@
           return outputString+"</div>";
           }
           // L.marker({lon: x, lat: y}).bindPopup(rendersList(array)).addTo(map);
-          L.marker({lon: x, lat: y},{icon:yahIcon}).bindPopup(rendersList(array)).addTo(mymap);
+          if(counter1%10==0){
+            L.marker({lon: x, lat: y},{icon:yahIcon}).bindPopup(rendersList(array)).addTo(mymap);
+          }
+          counter1=counter1+1;
         }
 
         function valueNodes(){
@@ -225,7 +303,7 @@
     }
 }
         dataPoints.sort(sortFunction);
-        var limit = 10;
+        var limit = 0.005;
 for (i=0;i<dataPoints.length;i++){
     try{
         var j=i;
@@ -273,7 +351,7 @@ for (i=0;i<dataPoints.length;i++){
           var max = findMaxandMin()[0];
           console.log(max);
           // var min = findMaxandMin()[1];
-          var gradient = 5/max;
+          var gradient = max/5;
           console.log(gradient);
           for(i=0;i<dataPoints.length;i++){
             // console.log(dataPoints[i][1],dataPoints[i][0]);
@@ -281,22 +359,22 @@ for (i=0;i<dataPoints.length;i++){
             console.log(value);
               switch(value){
                 case 0:
-                L.circle([dataPoints[i][1],dataPoints[i][0]],5000,{color: 'white',opacity:.5,weight:0}).addTo(map);
+                L.circle([dataPoints[i][1],dataPoints[i][0]],50,{color: 'white',opacity:.5,weight:0}).addTo(map);
                   break;
                   case 1:
-                  L.circle([dataPoints[i][1],dataPoints[i][0]],5000,{color: 'yellow',opacity:.5,weight:0}).addTo(map);
+                  L.circle([dataPoints[i][1],dataPoints[i][0]],50,{color: 'yellow',opacity:.5,weight:0}).addTo(map);
                   break;
                   case 2:
-                  L.circle([dataPoints[i][1],dataPoints[i][0]],5000,{color: 'orange',opacity:.5,weight:0}).addTo(map);
+                  L.circle([dataPoints[i][1],dataPoints[i][0]],50,{color: 'orange',opacity:.5,weight:0}).addTo(map);
                   break;
                   case 3:
-                  L.circle([dataPoints[i][1],dataPoints[i][0]],5000,{color: 'lightred',opacity:.5,weight:0}).addTo(map);
+                  L.circle([dataPoints[i][1],dataPoints[i][0]],50,{color: 'red',opacity:.3,weight:0}).addTo(map);
                   break;
                   case 4:
-                  L.circle([dataPoints[i][1],dataPoints[i][0]],5000,{color: 'red',opacity:.5,weight:0}).addTo(map);
+                  L.circle([dataPoints[i][1],dataPoints[i][0]],50,{color: 'red',opacity:.5,weight:0}).addTo(map);
                   break;
                   case 5:
-                  L.circle([dataPoints[i][1],dataPoints[i][0]],5000,{color: 'darkred',opacity:.5,weight:0}).addTo(map);
+                  L.circle([dataPoints[i][1],dataPoints[i][0]],50,{color: 'red',opacity:.7,weight:0}).addTo(map);
                   break;
               }
               
