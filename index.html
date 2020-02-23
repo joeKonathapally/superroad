@@ -31,7 +31,9 @@
     <div id="map"><form onclick='button_add_press("map")' class="button-to-add"><input type="button" value="+"></input></form></div>
 
     <div id="container">
-      <form action="https://superroad.herokuapp.com/write" method="POST" enctype="multipart/form-data">
+      <form action="https://superroad.herokuapp.com/write" 
+      method="POST" enctype="multipart/form-data" name="myForm" >
+      <!-- onSubmit="return validateForm(this)" -->
         <div class="form-group">
             <!-- <label for="ISBN">ISBN</label> -->
             <!-- <input class="form-control" name="lat"> -->
@@ -41,14 +43,13 @@
 
         <div class="form-group">
             <label for="Tags">Tags</label>
-            <input class="form-control" name="tag">
+            <input class="form-control" id ="tag" name="tag">
         </div>
 
         <div class="form-group">
             <label for="Title">Description</label>
-            <input class="form-control" name="description">
+            <input class="form-control" id="description" name="description">
         </div>
-
 
         <div class="form-group">
             <label for="Image">Image</label>
@@ -89,6 +90,7 @@
           popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
       });
       var xweb=0;
+      var dataPoints = [];
       var yweb=0;
       var geoLoc;
       var watchID;
@@ -153,8 +155,14 @@
             // console.log(x.lng+","+x.lat+","+x.data);
             pointOperation(x.lng,x.lat,x.data);
             pointOperation2(x.lng,x.lat,x.data);
+            dataPoints.push([x.lng,x.lat,0]);
           });
-
+          valueNodes();
+          for(i=0;i<dataPoints.length;i++){
+          console.log(dataPoints[i]);
+        }
+          mapStatistics();
+        
         });
 
         function pointOperation(x,y,array){
@@ -207,10 +215,111 @@
           L.marker({lon: x, lat: y},{icon:yahIcon}).bindPopup(rendersList(array)).addTo(mymap);
         }
 
+        function valueNodes(){
+          function sortFunction(a, b) {
+    if (a[0] === b[0]) {
+        return 0;
+    }
+    else {
+        return (a[0] < b[0]) ? -1 : 1;
+    }
+}
+        dataPoints.sort(sortFunction);
+        var limit = 10;
+for (i=0;i<dataPoints.length;i++){
+    try{
+        var j=i;
+    while (Math.abs(dataPoints[j+1][0]-dataPoints[i][0])<limit){
+        if(Math.abs(dataPoints[j+1][1]-dataPoints[i][1])<limit){
+            dataPoints[i][2] = dataPoints[i][2]+1;
+        }
+        j=j+1;
+    }
+    }
+    catch(err){
+
+    }
+    try{
+        var j=i;
+    while (Math.abs(dataPoints[j-1][0]-dataPoints[i][0])<limit){
+        if(Math.abs(dataPoints[j-1][1]-dataPoints[i][1])<limit){
+            dataPoints[i][2] = dataPoints[i][2]+1;
+        }
+        j=j-1;
+    }
+    }catch(err){
+
+    }
+}
+        }
+
+        function mapStatistics(){
+          function findMaxandMin(){
+            var max=0;
+            var min=0;
+    for (i=0;i<dataPoints.length;i++){
+        if(dataPoints[i][2]>max){
+            max=dataPoints[i][2];
+        }
+    }
+    min=max;
+    for(i=0;i<dataPoints.length;i++){
+        if(dataPoints[i][2]<min){
+            min=dataPoints[i][2];
+        }
+    }
+    return [max,min];
+}     
+          var max = findMaxandMin()[0];
+          console.log(max);
+          // var min = findMaxandMin()[1];
+          var gradient = 5/max;
+          console.log(gradient);
+          for(i=0;i<dataPoints.length;i++){
+            // console.log(dataPoints[i][1],dataPoints[i][0]);
+            var value = Math.floor(dataPoints[i][2]/gradient);
+            console.log(value);
+              switch(value){
+                case 0:
+                L.circle([dataPoints[i][1],dataPoints[i][0]],5000,{color: 'white',opacity:.5,weight:0}).addTo(map);
+                  break;
+                  case 1:
+                  L.circle([dataPoints[i][1],dataPoints[i][0]],5000,{color: 'yellow',opacity:.5,weight:0}).addTo(map);
+                  break;
+                  case 2:
+                  L.circle([dataPoints[i][1],dataPoints[i][0]],5000,{color: 'orange',opacity:.5,weight:0}).addTo(map);
+                  break;
+                  case 3:
+                  L.circle([dataPoints[i][1],dataPoints[i][0]],5000,{color: 'lightred',opacity:.5,weight:0}).addTo(map);
+                  break;
+                  case 4:
+                  L.circle([dataPoints[i][1],dataPoints[i][0]],5000,{color: 'red',opacity:.5,weight:0}).addTo(map);
+                  break;
+                  case 5:
+                  L.circle([dataPoints[i][1],dataPoints[i][0]],5000,{color: 'darkred',opacity:.5,weight:0}).addTo(map);
+                  break;
+              }
+              
+          }
+        }
         
+        function validateForm(e) {
+  var x = document.getElementById("tag").value;
+  var y = document.getElementById("description").value;
+  console.log(x);
+  console.log(y);
+  if (x == "" || y == "") {
+    alert("Name must be filled out");
+    return false;
+    e.cancelBubble = true;
+  }
+  else{
+    return true;
+  }
+
+}
 
 
-        
         const attribution =
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
