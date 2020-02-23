@@ -90,48 +90,106 @@
       });
       var xweb=0;
       var yweb=0;
+      var geoLoc;
+      var watchID;
+      var map = L.map('map').setView({lon: 0, lat: 0}, 6);
+      var mymap = L.map('issMap').setView({lon: 0,lat: 0}, 6);
 
       function getLocation() {
         if(navigator.geolocation){
-          navigator.geolocation.watchPosition(showPosition);
-          // setTimeout(() => {
-          //   secondFunction();
-          // },5000);
-          // callback();
+          geoloc = navigator.geolocation;
+          watchID = geoloc.watchPosition(showPosition);
+          console.log("1");
         } else {
           x.innerHTML = "Geolocation is not supported by this browser.";
-          // alert("Geolocation is not supported by this browser.");
         }
+        
         
       }
 
       function showPosition(position) {
+        console.log("2");
         yweb = position.coords.latitude;
         xweb = position.coords.longitude;
         console.log(xweb+' '+yweb);
-        document.getElementById('lat').setAttribute('value', xweb);
-        document.getElementById('lng').setAttribute('value', yweb);
-        console.log("set-defaults"+xweb+","+yweb);
-        
-        map.setView({lon: xweb,lat: yweb},6);
-        mymap.setView({lon: xweb,lat: yweb},6);
-        setUserLocation();
-        console.log("set-defaults"+xweb+","+yweb);
+        geoloc.clearWatch(watchID);
+
+        trial()
         // onClickMarker(null);
         // currentMarker = L.marker({lon:xweb,lat:yweb}).addTo(mymap);
         // map = L.map('map').setView({lon: 3, lat: 3}, 6);
       }
       
-
+      function trial(){
+        console.log("Running this"+xweb+' '+yweb);
+        document.getElementById('lat').setAttribute('value', xweb);
+        document.getElementById('lng').setAttribute('value', yweb);
+        // console.log("set-defaults"+xweb+","+yweb);
+        
+        map.setView({lon: xweb,lat: yweb},14);
+        mymap.setView({lon: xweb,lat: yweb},14);
+        L.marker({lon: xweb,lat: yweb}).addTo(map);
+        console.log("set-defaults"+xweb+","+yweb);
+      }
       getLocation();
 
       
+        //  var watchID;
+        //  var geoLoc;
+        //  var latitude;
+        //  var longitude;
+         
+        //  function showLocation(position) {
+        //     latitude = position.coords.latitude;
+        //     longitude = position.coords.longitude;
+        //     // alert("Latitude : " + latitude + " Longitude: " + longitude);
+        //  }
+         
+        //  function errorHandler(err) {
+        //     if(err.code == 1) {
+        //        alert("Error: Access is denied!");
+        //     } else if( err.code == 2) {
+        //        alert("Error: Position is unavailable!");
+        //     }
+        //  }
+         
+        //  function getLocationUpdate(){
+            
+        //     if(navigator.geolocation){
+               
+        //        // timeout at 60000 milliseconds (60 seconds)
+        //        var options = {timeout:60000};
+        //        geoLoc = navigator.geolocation;
+        //        watchID = geoLoc.watchPosition(showLocation, errorHandler, options);
+        //     } else {
+        //        alert("Sorry, browser does not support geolocation!");
+        //     }
+        //  }
+         
+        //  function stopWatch() {
+        //     geoLoc.clearWatch(watchID);
+        //  }
+
+        //  getLocationUpdate();
+        //  showLocation();
+        //  console.log(longitude+" "+latitude);
+        //  stopWatch();
+
+
+
+
+
+
+
+
+
+
 
       secondFunction();
       // initialize Leaflet
       function secondFunction(){
-        console.log(xweb+' '+yweb);
-        var map = L.map('map').setView({lon: xweb, lat: yweb}, 6);
+        // console.log(xweb+' '+yweb);
+        
         map.locate({setView: true, maxZoom: 14}); 
         // map = L.map('map').setView({lon: 3, lat: 3}, 6);
         // add the OpenStreetMap tiles
@@ -149,16 +207,16 @@
           // console.log(text.substring(0, 30));
           var objectJson = JSON.parse(text);
           objectJson.forEach(x =>{
-            console.log(x.lng+","+x.lat+","+x.data);
+            // console.log(x.lng+","+x.lat+","+x.data);
             pointOperation(x.lng,x.lat,x.data);
             pointOperation2(x.lng,x.lat,x.data);
           });
 
         });
-
-        function setUserLocation(){
-          L.marker({lon: xweb,lat: yweb}).addTo(map);
-        }
+        // /home/morpheus/Holding/index.html
+        // function setUserLocation(){
+        //   L.marker({lon: 10,lat: 10}).addTo(map);
+        // }
         function pointOperation(x,y,array){
           function rendersList(array) {
           var outputString="<div class=\"pop-up\">";
@@ -206,13 +264,13 @@
           return outputString+"</div>";
           }
           // L.marker({lon: x, lat: y}).bindPopup(rendersList(array)).addTo(map);
-          L.marker({lon: x, lat: y}).bindPopup(rendersList(array)).addTo(mymap);
+          L.marker({lon: x, lat: y},{icon:yahIcon}).bindPopup(rendersList(array)).addTo(mymap);
         }
 
         
 
 
-        var mymap = L.map('issMap').setView({lon: xweb,lat: yweb}, 6);
+        
         const attribution =
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
