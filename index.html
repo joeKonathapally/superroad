@@ -288,7 +288,7 @@ for(i=0;i<19;i++){
           }
           // L.marker({lon: x, lat: y}).bindPopup(rendersList(array)).addTo(map);
           if(counter1%10==0){
-            L.marker({lon: x, lat: y},{icon:yahIcon}).bindPopup(rendersList(array)).addTo(mymap);
+            L.marker({lon: x, lat: y}).bindPopup(rendersList(array)).addTo(mymap);
           }
           counter1=counter1+1;
         }
