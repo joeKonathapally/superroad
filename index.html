@@ -124,7 +124,7 @@
         map.setView({lon: xweb,lat: yweb},14);
         mymap.setView({lon: xweb,lat: yweb},14);
         L.marker({lon: xweb,lat: yweb},{icon:yahIcon}).addTo(map);
-        L.marker({lon: xweb,lat: yweb}).addTo(mymap);
+        L.marker({lon: xweb,lat: yweb},{icon:yahIcon}).addTo(mymap);
         console.log("set-defaults"+xweb+","+yweb);
       }
       getLocation();
