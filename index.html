@@ -158,9 +158,9 @@
             dataPoints.push([x.lng,x.lat,0]);
           });
           valueNodes();
-          for(i=0;i<dataPoints.length;i++){
-          console.log(dataPoints[i]);
-        }
+        //   for(i=0;i<dataPoints.length;i++){
+        //   console.log(dataPoints[i]);
+        // }
           mapStatistics();
         
         });
@@ -225,7 +225,7 @@
     }
 }
         dataPoints.sort(sortFunction);
-        var limit = 10;
+        var limit = 0.005;
 for (i=0;i<dataPoints.length;i++){
     try{
         var j=i;
@@ -273,7 +273,7 @@ for (i=0;i<dataPoints.length;i++){
           var max = findMaxandMin()[0];
           console.log(max);
           // var min = findMaxandMin()[1];
-          var gradient = 5/max;
+          var gradient = max/5;
           console.log(gradient);
           for(i=0;i<dataPoints.length;i++){
             // console.log(dataPoints[i][1],dataPoints[i][0]);
@@ -281,22 +281,22 @@ for (i=0;i<dataPoints.length;i++){
             console.log(value);
               switch(value){
                 case 0:
-                L.circle([dataPoints[i][1],dataPoints[i][0]],5000,{color: 'white',opacity:.5,weight:0}).addTo(map);
+                L.circle([dataPoints[i][1],dataPoints[i][0]],500,{color: 'white',opacity:.5,weight:0}).addTo(map);
                   break;
                   case 1:
-                  L.circle([dataPoints[i][1],dataPoints[i][0]],5000,{color: 'yellow',opacity:.5,weight:0}).addTo(map);
+                  L.circle([dataPoints[i][1],dataPoints[i][0]],500,{color: 'yellow',opacity:.5,weight:0}).addTo(map);
                   break;
                   case 2:
-                  L.circle([dataPoints[i][1],dataPoints[i][0]],5000,{color: 'orange',opacity:.5,weight:0}).addTo(map);
+                  L.circle([dataPoints[i][1],dataPoints[i][0]],500,{color: 'orange',opacity:.5,weight:0}).addTo(map);
                   break;
                   case 3:
-                  L.circle([dataPoints[i][1],dataPoints[i][0]],5000,{color: 'lightred',opacity:.5,weight:0}).addTo(map);
+                  L.circle([dataPoints[i][1],dataPoints[i][0]],500,{color: 'red',opacity:.5,weight:0}).addTo(map);
                   break;
                   case 4:
-                  L.circle([dataPoints[i][1],dataPoints[i][0]],5000,{color: 'red',opacity:.5,weight:0}).addTo(map);
+                  L.circle([dataPoints[i][1],dataPoints[i][0]],500,{color: 'red',opacity:.5,weight:0}).addTo(map);
                   break;
                   case 5:
-                  L.circle([dataPoints[i][1],dataPoints[i][0]],5000,{color: 'darkred',opacity:.5,weight:0}).addTo(map);
+                  L.circle([dataPoints[i][1],dataPoints[i][0]],500,{color: 'red',opacity:.5,weight:0}).addTo(map);
                   break;
               }
               
