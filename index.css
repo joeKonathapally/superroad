@@ -10,7 +10,14 @@
     z-index: 1;
     
   }
-
+  #map h3{
+    position: absolute;
+    z-index: 4;
+    left:38%;
+    text-align: center;
+    font-size: 40px;
+    font-style: normal;
+  }
   .pop-up::-webkit-scrollbar {
     display: none;
   }
